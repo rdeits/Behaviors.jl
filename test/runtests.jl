@@ -1,0 +1,26 @@
+using Behaviors
+using Base.Test
+
+function test_up_down()
+	going_up = Behavior((x) -> x[2][1] += 1, [])
+	going_down = Behavior((x) -> x[2][1] -= 1, [])
+	final = Behavior((x) -> x[2], [])
+	up_to_down = Transition((x) -> x[2][1] >= 10, going_down)
+	down_to_up = Transition((x) -> x[2][1] < 1, going_up)
+	add_transition!(going_up, up_to_down)
+	add_transition!(going_down, down_to_up)
+	add_transition!(going_up, Transition((x) -> x[1] > 20, final))
+
+	output = []
+	i = 1
+	x = [5]
+	for action_results in BehaviorIterator([going_up, going_down], [going_up], final, () -> (i, x))
+	    i += 1
+	    push!(output, copy(x[1]))
+	end
+
+	all(output .== [6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 5])
+end
+
+@test test_up_down()
+
