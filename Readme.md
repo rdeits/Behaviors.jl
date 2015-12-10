@@ -1,7 +1,7 @@
-using Behaviors
-using Base.Test
+# Behaviors.jl
 
-function test_up_down()
+Simple finite-state-machine based behaviors, for robotics and other applications. 
+
 	going_up = Behavior((i, x) -> x[1] += 1, [])
 	going_down = Behavior((i, x) -> x[1] -= 1, [])
 	final = Behavior((i, x) -> x[1], [])
@@ -19,8 +19,4 @@ function test_up_down()
 	    push!(output, copy(x[1]))
 	end
 
-	all(output .== [6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 5])
-end
-
-@test test_up_down()
-
+	@test all(output .== [6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5, 5])

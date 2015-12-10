@@ -57,9 +57,9 @@ done(biter::BehaviorIterator, behaviors::Vector{Behavior}) = any(behaviors .== b
 function next(bset::BehaviorIterator, behaviors::Vector{Behavior})
     input_data = input(bset)
     for i in 1:length(behaviors)
-        behaviors[i] = next(behaviors[i], input_data)
+        behaviors[i] = next(behaviors[i], input_data...)
     end
-    [action(behaviors[i], input_data) for i in 1:length(behaviors)], behaviors
+    [action(behaviors[i], input_data...) for i in 1:length(behaviors)], behaviors
 end
 
 end
