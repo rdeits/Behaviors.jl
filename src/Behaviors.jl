@@ -18,6 +18,8 @@ type Behavior
     transitions::Vector
 end
 
+Behavior(action::Function) = Behavior(action, Transition[])
+
 type Transition
     check::Function
     destination::Behavior
